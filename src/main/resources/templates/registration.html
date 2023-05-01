@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Регистрация</title>
+</head>
+<body>
+    <h1>Регистрация</h1>
+    <form method="post" th:actioin="@{/registration}" th:object="${person}">
+        <label for="login">Введите логин: </label>
+        <input type="text" th:field="*{login}" id="login">
+        <div style="color: red" th:if="${#fields.hasErrors('login')}" th:errors="*{login}"></div>
+        <hr>
+        <label for="password">Введите пароль: </label>
+        <input type="password" th:field="*{password}" id="password">
+        <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+        <hr>
+        <input type="submit" value="Зарегистрироваться">
+    </form>
+    <a href="/authentication">Вход</a>
+</body>
+</html>
