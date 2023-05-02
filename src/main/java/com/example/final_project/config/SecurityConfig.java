@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -15,10 +15,10 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig  {
     private final PersonDetailsService personDetailsService;
 
-    // отключаем защиту паролей в рамках тестирования приложения
+    // метод хэширования
     @Bean
     public PasswordEncoder getPasswordEncode(){
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -48,6 +48,7 @@ public class SecurityConfig  {
     }
 
     protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception{
-        authenticationManagerBuilder.userDetailsService(personDetailsService);
+        authenticationManagerBuilder.userDetailsService(personDetailsService)
+        .passwordEncoder(getPasswordEncode());
     }
 }
