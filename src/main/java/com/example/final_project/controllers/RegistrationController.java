@@ -32,7 +32,7 @@ public class RegistrationController {
             return "registration";
         }
         personService.register(person);
-        return "redirect:/index";
+        return "redirect:/person_account";
     }
 
 }

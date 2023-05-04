@@ -2,10 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Список товаров</title>
+    <title>Главная</title>
 </head>
 <body>
-    <h1>Доступные товары: </h1>
+    <form method="post" action="/logout">
+        <button type="submit">Выйти из личного кабинета</button>
+    </form>
+    <h1>Главная страница магазина</h1>
+    <h2>Доступные товары: </h2>
     <div th:each="product : ${products}">
         <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
         <br>
