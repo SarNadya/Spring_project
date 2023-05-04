@@ -10,9 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MainController {
     @GetMapping("/index")
     public String index(){
-        // Получаем объект аутентификации -> с помощью SpringContextHolder обращаемся к контексту и на нем вызываем метод аутентификации. Из сессии текущего пользователя получаем объект, который был положен в данную сессию после аутентификации пользователя
+        // Получаем объект аутентификации, с помощью SpringContextHolder обращаемся к контексту и на нем вызываем метод аутентификации. Из сессии текущего пользователя получаем объект, который был положен в данную сессию после аутентификации пользователя
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
+        String role = personDetails.getPerson().getRole();
+        if(role.equals("ROLE_ADMIN")){
+            return "redirect:/admin";
+        }
         return "index";
     }
 }
