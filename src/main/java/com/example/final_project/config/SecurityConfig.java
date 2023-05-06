@@ -28,7 +28,7 @@ public class SecurityConfig  {
                 .authorizeHttpRequests() // указываем что все страницы должны быть защищены аутентификацией
                 .requestMatchers("/admin").hasRole("ADMIN") // указываем на то, что страница /admin доступна пользователям с ролью ADMIN
                 // c помощью permitAll указываем что перечисленные страницы доступны не аутентифицированным пользователям
-                .requestMatchers("/authentication", "/error", "/registration", "/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/product", "/product/info/{id}").permitAll()
+                .requestMatchers("/authentication", "/error", "/registration", "/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/product", "/product/info/{id}", "/product/search").permitAll()
                 // все остальные страницы доступны аутентифицированным пользователям с данными ролями
                 .anyRequest().hasAnyRole("USER", "ADMIN")
                 .and() // указываем что дальше настраивается аутентификация и соединяем ее с настройкой доступа

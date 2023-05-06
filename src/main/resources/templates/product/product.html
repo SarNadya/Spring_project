@@ -5,7 +5,51 @@
     <title>Список товаров</title>
 </head>
 <body>
-    <h1>Доступные товары: </h1>
+    <h1>Главная страница магазина</h1>
+    <h2>Cортировка, поиск, фильтрация</h2>
+    <form th:method="POST" th:action="@{/product/search}">
+        <fieldset>
+            <legend>Выберите параметры для сортировки, поиска, фильтрации:</legend>
+            <label for="search">Поиск по наименованию</label>
+            <input type="text" id="search" name="search" th:value="*{value_search}">
+            <br>
+            <p>Цена, P</p>
+            <label for="min">От</label>
+            <input type="text" name="min" id="min" th:value="*{value_price_min}">
+            <label for="max">До</label>
+            <input type="text" name="max" id="max" th:value="*{value_price_max}">
+            <br>
+            <br>
+            <div>
+                <input type="radio" id="ascending_price" name="price" value="sorted_by_ascending_price">
+                <label for="ascending_price">Отсортировать по возрастанию цены</label>
+                <input type="radio" id="descending_price" name="price"
+                       value="sorted_by_descending_price">
+                <label for="descending_price">Отсортировать по убыванию цены</label>
+                <p>Категория товаров: </p>
+                <input type="radio" id="furniture" name="contract" value="furniture">
+                <label for="furniture">Мебель</label>
+                <input type="radio" id="appliances" name="contract" value="appliances">
+                <label for="appliances">Бытовая техника</label>
+                <input type="radio" id="clothes" name="contract" value="clothes">
+                <label for="clothes">Одежда</label>
+                <br>
+                <br>
+                <input type="submit" value="Найти">
+            </div>
+        </fieldset>
+    </form>
+    <hr>
+    <h3>Результат поиска, cортировки, фильтрации</h3>
+    <div th:each="product : ${search_product}">
+        <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
+        <br>
+        <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
+        <p th:text="'Цена: ' + ${product.getPrice()}"></p>
+        <hr>
+    </div>
+    <hr>
+    <h3>Доступные товары: </h3>
     <div th:each="product : ${products}">
         <img th:src="'/img/' + ${product.imageList[0].getFileName()}" width="300px">
         <br>
