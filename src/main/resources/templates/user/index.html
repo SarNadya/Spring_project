@@ -8,6 +8,10 @@
     <form method="post" action="/logout">
         <button type="submit">Выйти из личного кабинета</button>
     </form>
+    <br>
+    <form method="get" th:action="@{/cart}">
+        <button type="submit">Корзина</button>
+    </form>
     <h1>Личный кабинет</h1>
     <h2>Cортировка, поиск, фильтрация</h2>
     <form th:method="POST" th:action="@{/person_account/product/search}">
@@ -57,6 +61,7 @@
         <br>
         <a th:href="@{/product/info/{id}(id=${product.getId()})}" th:text="${product.getTitle()}"></a>
         <p th:text="'Цена: ' + ${product.getPrice()}"></p>
+        <a th:href="@{/cart/add/{id}(id=${product.getId()})}">Добавить товар в корзину</a>
         <hr>
     </div>
 </body>

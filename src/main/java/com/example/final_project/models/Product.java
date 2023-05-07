@@ -43,6 +43,10 @@ public class Product {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product")
     private List<Image> imageList = new ArrayList<>();
 
+    @ManyToMany()
+    @JoinTable(name = "product_cart", joinColumns = @JoinColumn(name = "product_id"),inverseJoinColumns = @JoinColumn(name = "person_id"))
+    private List<Person> personList;
+
 
     // Данный метод будет заполнять поле даты и времени при создании объекта класса
     @PrePersist
