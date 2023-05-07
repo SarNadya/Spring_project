@@ -12,6 +12,10 @@
     <form method="get" th:action="@{/cart}">
         <button type="submit">Корзина</button>
     </form>
+    <br>
+    <form method="get" th:action="@{/orders}">
+        <input type="submit" value="Заказы">
+    </form>
     <h1>Личный кабинет</h1>
     <h2>Cортировка, поиск, фильтрация</h2>
     <form th:method="POST" th:action="@{/person_account/product/search}">
