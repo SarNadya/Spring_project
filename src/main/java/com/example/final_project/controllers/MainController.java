@@ -8,6 +8,7 @@ import com.example.final_project.repositories.CartRepository;
 import com.example.final_project.repositories.OrderRepository;
 import com.example.final_project.repositories.ProductRepository;
 import com.example.final_project.security.PersonDetails;
+import com.example.final_project.services.OrderService;
 import com.example.final_project.services.ProductService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,11 +29,14 @@ public class MainController {
 
     private final OrderRepository orderRepository;
 
-    public MainController(ProductService productService, ProductRepository productRepository, CartRepository cartRepository, OrderRepository orderRepository) {
+    private  final OrderService orderService;
+
+    public MainController(ProductService productService, ProductRepository productRepository, CartRepository cartRepository, OrderRepository orderRepository, OrderService orderService) {
         this.productService = productService;
         this.productRepository = productRepository;
         this.cartRepository = cartRepository;
         this.orderRepository = orderRepository;
+        this.orderService = orderService;
     }
 
     @GetMapping("/person_account")
@@ -181,7 +185,7 @@ public class MainController {
 
         String uuid = UUID.randomUUID().toString();
         for(Product product : productList){
-            Order newOrder = new Order(uuid, product, personDetails.getPerson(), 1, product.getPrice(), Status.Оформлен);
+            Order newOrder = new Order(uuid, product, personDetails.getPerson(), 1, product.getPrice(), Status.Принят);
             orderRepository.save(newOrder);
             cartRepository.deleteCartByProductId(product.getId());
         }
@@ -196,4 +200,23 @@ public class MainController {
         model.addAttribute("orders", orderList);
         return "/user/orders";
     }
+
+    @GetMapping("/admin/orders")
+    public String getAllOrder(Model model){
+        model.addAttribute("orders", orderService.getAllOrder());
+        return "/admin/adminOrders";
+    }
+
+    @GetMapping("/order/info/{id}")
+    public String infoOrder(@PathVariable("id") int id, Model model){
+        model.addAttribute("orders", orderService.getOrderId(id));
+        return "/admin/infoOrder";
+    }
+
+    @PostMapping("/order/info/{id}")
+    public String editStatusOrder(@PathVariable("id") int id, @RequestParam("status") Status status){
+        orderService.updateOrderStatus(id, status);
+        return "redirect:/order/info/{id}";
+    }
+
 }

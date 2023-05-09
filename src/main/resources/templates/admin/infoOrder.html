@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Информация о заказе</title>
+</head>
+<body>
+  <h1>Информация о заказе</h1>
+  <div th:each="order : ${orders}">
+    <h3 th:text="'Заказ №' + ${order.getNumber()}"></h3>
+    <img th:src="'/img/' + ${order.getProduct().getImageList()[0].getFileName()}" width="100px">
+    <p th:text="'Наименование: ' + ${order.getProduct().getTitle()}">
+    <p th:text="'Количество: ' + ${order.getCount()}">
+    <p th:text="'Цена: ' + ${order.getPrice()}">
+    <p th:text="'Дата заказа: ' + ${#temporals.format(order.getDateTime(), 'dd-MMM-yyyy')}"></p>
+    <p th:text="'Cтатус: ' + ${order.getStatus()}">
+  </div>
+  <hr>
+  <form method="post" th:action="@{/order/info/{id}(id=${orders.getId()})}">
+    <label for="status">Изменить статус заказа: </label>
+    <select name="status" id="status">
+      <option th:each="enum : ${T(com.example.final_project.enumeration.Status).values()}"
+              th:text="${enum}"
+              th:value = "${enum}">
+      </option>
+    </select>
+    <br>
+    <br>
+    <input type="submit" value="Сохранить">
+  </form>
+</body>
+</html>

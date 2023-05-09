@@ -35,7 +35,7 @@ public class AdminController {
     @GetMapping("/admin")
     public String admin(Model model){
         model.addAttribute("products", productService.getAllProduct());
-        return "admin";
+        return "admin/admin";
     }
 
     @GetMapping("admin/product/add")
@@ -138,8 +138,6 @@ public class AdminController {
         model.addAttribute("product", productService.getProductId(id));
         model.addAttribute("category", categoryRepository.findAll());
         return "product/editProduct";
-
-
     }
 
     @PostMapping("admin/product/edit/{id}")

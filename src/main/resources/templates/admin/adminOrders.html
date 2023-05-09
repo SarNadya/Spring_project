@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Заказы</title>
+</head>
+<body>
+  <h1>Личный кабинет администратора</h1>
+  <h2>Список всех заказов пользователей</h2>
+  <div th:each="order : ${orders}">
+    <a th:href="@{/order/info/{id}(id=${order.getId()})}" th:text="'Заказ №' + ${order.getNumber()}"></a>
+    <br>
+    <br>
+  </div>
+</body>
+</html>
