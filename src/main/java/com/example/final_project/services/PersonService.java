@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,5 +31,22 @@ public class PersonService {
         person.setPassword(passwordEncoder.encode(person.getPassword()));
         person.setRole("ROLE_USER");
         personRepository.save(person);
+    }
+
+    // Данный метод позволяет получить список всех пользователей
+    public List<Person> getAllPerson(){
+        return personRepository.findAll();
+    }
+
+    // Данный метод позволяет получить пользователя по id
+    public Person getPersonId(int id){
+        Optional<Person> optionalPerson = personRepository.findById(id);
+        return optionalPerson.orElse(null);
+    }
+
+    // Данный метод позволяет изменить роль пользователю
+    @Transactional
+    public void changePersonRole(int id, String role){
+        personRepository.changePersonRole(id, role);
     }
 }

@@ -9,9 +9,14 @@
   <form method="post" th:action="@{/logout}">
       <button type="submit">Выйти из личного кабинета</button>
   </form>
-  <hr>
+  <br>
+  <br>
   <a href="admin/orders">Заказы</a>
-  <hr>
+  <br>
+  <br>
+  <a href="admin/users">Пользователи</a>
+  <br>
+  <br>
   <a href="admin/product/add">Добавить товар</a>
   <hr>
   <div th:each="product : ${products}">

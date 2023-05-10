@@ -9,6 +9,7 @@ import com.example.final_project.repositories.OrderRepository;
 import com.example.final_project.repositories.ProductRepository;
 import com.example.final_project.security.PersonDetails;
 import com.example.final_project.services.OrderService;
+import com.example.final_project.services.PersonService;
 import com.example.final_project.services.ProductService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,12 +32,15 @@ public class MainController {
 
     private  final OrderService orderService;
 
-    public MainController(ProductService productService, ProductRepository productRepository, CartRepository cartRepository, OrderRepository orderRepository, OrderService orderService) {
+    private final PersonService personService;
+
+    public MainController(ProductService productService, ProductRepository productRepository, CartRepository cartRepository, OrderRepository orderRepository, OrderService orderService, PersonService personService) {
         this.productService = productService;
         this.productRepository = productRepository;
         this.cartRepository = cartRepository;
         this.orderRepository = orderRepository;
         this.orderService = orderService;
+        this.personService = personService;
     }
 
     @GetMapping("/person_account")
@@ -225,6 +229,24 @@ public class MainController {
         model.addAttribute("search_order", orderService.findOrder(search));
         model.addAttribute("value_search", search);
         return "/admin/adminOrders";
+    }
+
+    @GetMapping("/admin/users")
+    public String getAllPerson(Model model){
+        model.addAttribute("persons", personService.getAllPerson());
+        return "/admin/users";
+    }
+
+    @GetMapping("/admin/users/info/{id}")
+    public String getInfoPerson(@PathVariable("id") int id, Model model){
+        model.addAttribute("persons", personService.getPersonId(id));
+        return "/admin/infoUser";
+    }
+
+    @PostMapping("/admin/users/info/{id}")
+    public String changeUserRole(@PathVariable("id") int id, @RequestParam("role") String role){
+        personService.changePersonRole(id, role);
+        return "redirect:/admin/users/info/{id}";
     }
 
 }
