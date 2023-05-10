@@ -6,7 +6,21 @@
 </head>
 <body>
   <h1>Личный кабинет администратора</h1>
-  <h2>Список всех заказов пользователей</h2>
+  <h2>Поиск заказов</h2>
+  <form th:method="post" th:action="@{/admin/orders/search}">
+      <label for="search">Введите 4 последних символа заказа</label>
+      <input type="text" id="search" name="search" th:value="*{value_search}">
+      <br>
+      <br>
+      <input type="submit" value="Найти">
+  </form>
+  <h3>Результат поиска</h3>
+  <div th:each="order : ${search_order}">
+      <br>
+      <a th:href="@{/order/info/{id}(id=${order.getId()})}" th:text="'Заказ №' + ${order.getNumber()}"></a>
+  </div>
+  <hr>
+  <h3>Список всех заказов пользователей</h3>
   <div th:each="order : ${orders}">
     <a th:href="@{/order/info/{id}(id=${order.getId()})}" th:text="'Заказ №' + ${order.getNumber()}"></a>
     <br>

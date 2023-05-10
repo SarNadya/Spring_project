@@ -219,4 +219,12 @@ public class MainController {
         return "redirect:/order/info/{id}";
     }
 
+    @PostMapping("/admin/orders/search")
+    public String orderSearch(@RequestParam("search") String search, Model model) {
+        model.addAttribute("orders", orderService.getAllOrder());
+        model.addAttribute("search_order", orderService.findOrder(search));
+        model.addAttribute("value_search", search);
+        return "/admin/adminOrders";
+    }
+
 }

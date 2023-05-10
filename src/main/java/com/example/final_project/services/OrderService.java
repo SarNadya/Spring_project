@@ -1,9 +1,7 @@
 package com.example.final_project.services;
 
 import com.example.final_project.enumeration.Status;
-import com.example.final_project.models.Category;
 import com.example.final_project.models.Order;
-import com.example.final_project.models.Product;
 import com.example.final_project.repositories.OrderRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,5 +33,10 @@ public class OrderService {
     @Transactional
     public void updateOrderStatus(int id, Status status){
         orderRepository.updateOrderStatus(id, status);
+    }
+
+    // Данный метод позволяет найти заказ(ы) по части номера в конце
+    public List<Order> findOrder(String search){
+        return orderRepository.findByNumberEndingWith(search);
     }
 }

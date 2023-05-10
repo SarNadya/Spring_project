@@ -17,4 +17,11 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     @Modifying
     @Query("UPDATE Order orders SET orders.status = ?2 WHERE orders.id = ?1")
     int updateOrderStatus(int id, Status status);
+
+//    @Query(value = "select * from orders where (number LIKE %?)", nativeQuery = true)
+//    List<Order> findByNumberOrder(String name);
+
+    // Поиск всех заказов по части номера в конце
+    List<Order> findByNumberEndingWith(String name);
+
 }
