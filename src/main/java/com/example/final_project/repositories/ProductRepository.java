@@ -4,9 +4,11 @@ import com.example.final_project.models.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
     // Поиск всех продуктов по части наименования продукта в не зависомости от регистра
