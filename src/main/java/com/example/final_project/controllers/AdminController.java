@@ -15,6 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -53,76 +56,24 @@ public class AdminController {
             return "product/addProduct";
         }
 
-        if(file_one != null){
-            File uploadDir = new File(uploadPath);
-            if(!uploadDir.exists()){
-                uploadDir.mkdir();
+        List<MultipartFile> fileList = new ArrayList<>();
+        Collections.addAll(fileList, file_one, file_two, file_three, file_four, file_five);
+        for(int i = 0; i < fileList.size(); i++) {
+            if(!fileList.get(i).isEmpty()) {
+                File uploadDir = new File(uploadPath);
+                if(!uploadDir.exists()){
+                    uploadDir.mkdir();
+                }
+                String uuidFile = UUID.randomUUID().toString();
+                String resultFileName = uuidFile + "." + fileList.get(i).getOriginalFilename();
+                fileList.get(i).transferTo(new File(uploadPath + "/" + resultFileName));
+                Image image = new Image();
+                image.setProduct(product);
+                image.setFileName(resultFileName);
+                product.addImageToProduct(image);
             }
-            String uuidFile = UUID.randomUUID().toString();
-            String resultFileName = uuidFile + "." + file_one.getOriginalFilename();
-            file_one.transferTo(new File(uploadPath + "/" + resultFileName));
-            Image image = new Image();
-            image.setProduct(product);
-            image.setFileName(resultFileName);
-            product.addImageToProduct(image);
-
         }
 
-        if(file_two != null){
-            File uploadDir = new File(uploadPath);
-            if(!uploadDir.exists()){
-                uploadDir.mkdir();
-            }
-            String uuidFile = UUID.randomUUID().toString();
-            String resultFileName = uuidFile + "." + file_two.getOriginalFilename();
-            file_two.transferTo(new File(uploadPath + "/" + resultFileName));
-            Image image = new Image();
-            image.setProduct(product);
-            image.setFileName(resultFileName);
-            product.addImageToProduct(image);
-        }
-
-        if(file_three != null){
-            File uploadDir = new File(uploadPath);
-            if(!uploadDir.exists()){
-                uploadDir.mkdir();
-            }
-            String uuidFile = UUID.randomUUID().toString();
-            String resultFileName = uuidFile + "." + file_three.getOriginalFilename();
-            file_three.transferTo(new File(uploadPath + "/" + resultFileName));
-            Image image = new Image();
-            image.setProduct(product);
-            image.setFileName(resultFileName);
-            product.addImageToProduct(image);
-        }
-
-        if(file_four != null){
-            File uploadDir = new File(uploadPath);
-            if(!uploadDir.exists()){
-                uploadDir.mkdir();
-            }
-            String uuidFile = UUID.randomUUID().toString();
-            String resultFileName = uuidFile + "." + file_four.getOriginalFilename();
-            file_four.transferTo(new File(uploadPath + "/" + resultFileName));
-            Image image = new Image();
-            image.setProduct(product);
-            image.setFileName(resultFileName);
-            product.addImageToProduct(image);
-        }
-
-        if(file_five != null){
-            File uploadDir = new File(uploadPath);
-            if(!uploadDir.exists()){
-                uploadDir.mkdir();
-            }
-            String uuidFile = UUID.randomUUID().toString();
-            String resultFileName = uuidFile + "." + file_five .getOriginalFilename();
-            file_five .transferTo(new File(uploadPath + "/" + resultFileName));
-            Image image = new Image();
-            image.setProduct(product);
-            image.setFileName(resultFileName);
-            product.addImageToProduct(image);
-        }
         productService.saveProduct(product, category_db);
         return "redirect:/admin";
     }
